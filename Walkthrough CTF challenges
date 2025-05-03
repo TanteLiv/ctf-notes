@@ -1,0 +1,23 @@
+# CHALLENGE 4 - Image with something hidden
+The JPEG contained a textfile which was extracted by using steghide:
+###### From terminal: SharedFolder$ steghide extract -sf Extinction_1577976250757.jpg
+Enter passphrase: 
+wrote extracted data to "Final_message.txt".
+
+Just press ENTER when asked for passphrase. The flag is inside the text file.
+
+# CHALLENGE 5
+The flag is in the text, just highlight it
+
+# CHALLENGE 6
+Scan the QR code to see the flag
+
+# CHALLENGE 7 - Reverse it or read it?
+Downloaded the file and used "file" command to see file type. Then, to check for strings, i used the string command which returned the flag.
+
+# CHALLENGE 8 - Another decoding stuff
+3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L
+
+Solution: The text is base58. To decode i installed base58 and ran: 
+python3 -c "import base58; print(base58.b58decode('3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L'))"
+
