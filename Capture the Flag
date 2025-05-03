@@ -1,0 +1,74 @@
+# CTF - CHALLENGE 1:
+ Can you decode the following?
+-> VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==
+
+## Walkthrough:
+Output when decoding with base64:(echo "VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==" | base64 -d
+THM{ju57_d3c0d3_7h3_b453} 
+
+# - CHALLENGE  :
+# 🕵️ CTF Challenge: Extracting Hidden Data from an Image (Titel "Find me")
+
+## 🎯 Objective
+Recover a hidden flag embedded inside a `.jpg` image file using forensic analysis tools.
+
+---
+
+## 🧰 Tools Used
+- `xxd` – to view the hex structure of the file
+- `binwalk` – to detect embedded data inside the image
+- `dd` – to extract raw binary data from a specific byte offset
+- `strings` – to view readable content inside binary data
+
+---
+
+## 🧪 Steps Taken
+
+### 1. Inspect the File Structure (Optional)
+Used `xxd` to view the image in hex:
+```bash
+xxd Find_me_1577975566801.jpg | less
+```
+This provided a hex + ASCII dump to manually inspect any odd content or headers.
+
+---
+
+### 2. Analyze Embedded Content with Binwalk
+```bash
+binwalk Find_me_1577975566801.jpg
+```
+
+**Output:**
+```
+DECIMAL       HEXADECIMAL     DESCRIPTION
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+```
+Binwalk revealed a TIFF image starting at **byte 30** within the JPEG file.
+
+---
+
+### 3. Extract Hidden TIFF Data Manually
+Used `dd` to extract everything starting from byte 30:
+```bash
+dd if=Find_me_1577975566801.jpg of=hidden.tiff bs=1 skip=30
+```
+
+---
+
+### 4. Reveal the Flag
+Used `strings` to view readable text in the extracted TIFF file:
+```bash
+strings hidden.tiff
+```
+
+✅ **Flag found:**
+```
+THM{3x1f_0r_3x17}
+```
+
+---
+
+## 🏁 Conclusion
+The challenge hid a flag inside a TIFF segment appended to a JPEG image. By using binwalk and `dd`, we successfully extracted and recovered the hidden flag.
+
